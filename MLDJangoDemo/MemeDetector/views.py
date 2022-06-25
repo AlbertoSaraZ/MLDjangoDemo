@@ -1,10 +1,8 @@
-from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
-from django.urls import reverse
 from django.views.generic.edit import FormMixin
 from .forms import MemeUploadForm, SearchMemeForm
 from .models import CNNImage
@@ -20,6 +18,9 @@ class ImageUploadView(FormView):
 
     def form_valid(self, form):
         item = form.save()
+
+        # Saves item pk to send user to detail view of the image that was just uploaded
+
         self.pk = item.pk
         return super(ImageUploadView, self).form_valid(form)
 
@@ -54,6 +55,8 @@ class MemeGallery(FormMixin, ListView):
         else:
             self.object_list = self.get_queryset()
 
+        # Search form is passed and kwargs updated to keep query in input field in form
+
         context = self.get_context_data(object_list=self.object_list, form=search_form)
         return self.render_to_response(context)
 
@@ -64,6 +67,7 @@ class SingleMeme(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # meme_confidence is stored as a float from 0 to 1, it's better to change here than in template
         context['object'].meme_confidence = context['object'].meme_confidence * 100
         return context
 

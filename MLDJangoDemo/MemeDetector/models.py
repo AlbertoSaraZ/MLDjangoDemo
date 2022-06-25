@@ -4,6 +4,9 @@ import os
 
 
 def update_filename(instance, filename):
+
+    # Originally made this to "fix" a problem with opencv imread, but the workaround was avoiding imread altogether
+    # Kept because sanitizing the filename is still a good idea
     path = "images"
     name = get_valid_filename(filename)
     return os.path.join(path, name)

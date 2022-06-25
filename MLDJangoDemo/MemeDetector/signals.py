@@ -2,6 +2,9 @@ from MemeDetector.MLModels.resnet152memes import ResNet152Memes
 
 
 def process_new_image(sender, instance, **kwargs):
+
+    # Need to check was_processed because it calls instance.save(), triggering itself recursively again
+
     if not instance.was_processed:
         print("processing new image")
         resnet = ResNet152Memes()

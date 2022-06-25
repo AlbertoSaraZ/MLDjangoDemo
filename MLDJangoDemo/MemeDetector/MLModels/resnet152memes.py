@@ -7,17 +7,22 @@ import os
 import numpy as np
 from django.conf import settings
 
+
 class ResNet152Memes:
     def __init__(self):
         self.model = torch.hub.load('pytorch/vision:v0.6.0', 'resnet152', pretrained=False)
         self.location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
         self.model.fc = nn.Linear(2048, 2)
+        # TODO Check if weights exist first, if not load with random values. This way it won't break
+        # if someone tris to run the project without having the file
+
         self.model.load_state_dict(torch.load(os.path.join(self.location, 'resnet152MEMES.pth'),
                                               map_location=torch.device('cpu')))
         self.model.eval()
 
     def predict(self, image_path):
-        image = cv2.imdecode(np.fromfile(os.path.realpath(os.path.join(settings.MEDIA_ROOT, image_path)), dtype=np.uint8), cv2.IMREAD_UNCHANGED)
+        image = cv2.imdecode(np.fromfile(os.path.realpath(os.path.join(settings.MEDIA_ROOT, image_path))
+                                         , dtype=np.uint8), cv2.IMREAD_UNCHANGED)
         image = cv2.resize(image, (224, 224))
         image = cv2.normalize(image, None, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
         preprocess = transforms.Compose([
@@ -33,4 +38,4 @@ class ResNet152Memes:
         del input_tensor
         gc.collect()
 
-        return torch.softmax(output,dim=1).tolist()[0]
+        return torch.softmax(output, dim=1).tolist()[0]

@@ -13,4 +13,5 @@ class SearchMemeForm(forms.Form):
 
     def __init__(self, *args, request_data=None, **kwargs):
         super().__init__(*args, **kwargs)
+        # To help pagination work with filtered object lists the initial field is set with the query value
         self.fields['search'].initial = request_data.GET.get('search')

@@ -1,3 +1,3 @@
 from django.contrib import admin
 
-# Register your models here.
+# TODO Evaluate if it's worthwhile registering CNNImage model

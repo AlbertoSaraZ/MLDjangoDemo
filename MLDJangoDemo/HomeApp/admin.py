@@ -1,3 +1,3 @@
 from django.contrib import admin
 
-# Register your models here.
+# TODO Register card and about models to be able to modify them through admin site
