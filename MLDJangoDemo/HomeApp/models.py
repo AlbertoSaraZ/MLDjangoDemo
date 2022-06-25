@@ -1,3 +1,4 @@
 from django.db import models
 
-# Create your models here.
+#TODO Make model for cards in home
+#TODO Make model for text in about
