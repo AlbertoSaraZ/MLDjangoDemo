@@ -1,0 +1,7 @@
+*.pyc
+*~
+__pycache__
+/MLDJangoDemo/MemeDetector/MLModels/resnet152MEMES.pth
+/venv/
+/MLDJangoDemo/db.sqlite3
+.DS_Store

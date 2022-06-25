@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load assessment_texts %}
+
+{% block content %}
+    <br>
+    <div class="d-flex justify-content-center">
+      <form method="post">{% csrf_token %}
+          <p>Are you sure you want to delete "{{ object.name }}"?</p>
+          {{ form }}
+          <div class="d-flex justify-content-around">
+            <div>
+                <input type="submit" value="Confirm">
+            </div>
+            <div>
+                <a href="{% url 'single_meme' object.id %}">Cancel</a>
+            </div>
+          </div>
+      </form>
+    </div>
+    <div class="d-flex justify-content-center">
+    </div>
+
+{% endblock content %}

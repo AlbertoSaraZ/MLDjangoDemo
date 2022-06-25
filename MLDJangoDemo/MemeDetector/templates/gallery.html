@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% load assessment_texts %}
+
+{% block content %}
+
+
+    <br>
+        <h5 class="container-sm d-flex justify-content-center">
+            {% if query %}
+            Search results for {{ query }}
+            {% endif %}
+        </h5>
+
+    <div class="container-sm d-flex justify-content-center" >
+
+        {% if object_list %}
+        <table class="table-striped table-sm align-middle text-center" border="1" style="max-height:600px; width:800px;">
+            <tr>
+                <th style="width: 20%">Image Name</th>
+                <th style="width: 20%">Meme Confidence</th>
+                <th style="width: 20%">AI Assessment</th>
+                <th style="width: 20%">Submitted as meme?</th>
+                <th style="width: 20%">Image preview</th>
+            </tr>
+            {% for image in object_list %}
+                <tr>
+                    <td style="width: 20%">
+                        <a href="{% url 'single_meme' image.id %}">{{ image.name }}</a>
+                    </td>
+                    <td style="width: 20%">
+                        {{ image.meme_confidence|stringformat:".1f" }}%
+                    </td>
+                    <td style="width: 20%">
+                        {{ image.meme_confidence|textbyscore }}
+                    </td>
+                    <td style="width: 20%">
+                        {% if image.submitted_as_meme%}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+
+                    </td>
+                    <td style="width: 20%">
+                        <img src="{{ image.image.url }}" style="max-width: 100%; max-height:100px" />
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% elif query %}
+        <h4>No images found for {{query}}</h4>
+        {% else %}
+        <h4>Start uploading!</h4>
+        {% endif %}
+    </div>
+    <br>
+
+    {% if object_list %}
+    <div class="d-flex justify-content-center">
+        <form method = "get">
+            {{ form.as_p }}
+            <div class="d-flex justify-content-center">
+                <input class="button" type="submit" value="Search">
+            </div>
+        </form>
+    </div>
+    {% endif %}
+    {% if query %}
+    <br>
+    <div class="d-flex justify-content-center">
+        <a href="{% url 'gallery' %}">Clear search</a>
+    </div>
+    {% endif %}
+    <br>
+
+    <div class="d-flex justify-content-center">
+        <a href="{% url 'meme_upload' %}">Upload Image</a>
+    </div>
+    <nav class="d-flex justify-content-center">
+        {% if is_paginated %}
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    {% if query %}
+                    <li> <a href="?page={{ page_obj.previous_page_number }}&search={{ query }}"> &laquo; </a> </li>
+                    {% else %}
+                    <li> <a href="?page={{ page_obj.previous_page_number }}"> &laquo; </a> </li>
+                    {% endif %}
+                {% endif %}
+
+                {% for i in paginator.page_range %}
+                    {% if query %}
+                    <li> <a href="?page={{i}}&search={{ query }}" {% if page_obj.number != i %} class="text-secondary" {% endif %}> {{ i }} </a> </li>
+                    {% else %}
+                    <li> <a href="?page={{i}}" {% if page_obj.number != i %} class="text-secondary" {% endif %}> {{ i }} </a> </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    {% if query %}
+                    <li> <a href="?page={{ page_obj.next_page_number }}&search={{ query }}"> &raquo; </a> </li>
+                    {% else %}
+                    <li> <a href="?page={{ page_obj.next_page_number }}"> &raquo; </a> </li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+        {% endif %}
+    </nav>
+
+{% endblock content %}

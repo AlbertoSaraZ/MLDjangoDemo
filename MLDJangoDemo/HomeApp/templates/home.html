@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    <h5 class="container-sm d-flex justify-content-center">
+        Welcome!
+    </h5>
+    <br>
+    <br>
+    <div class="d-flex justify-content-center">
+        <div class="container">
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Meme Detector</h5>
+                <h6 class="card-subtitle mb-2 text-muted">24 June 2022</h6>
+                <p class="card-text">Part of my engineering thesis, we now have a CNN I made using PyTorch to detect memes.</p>
+                <a href="{% url 'gallery' %}" class="card-link">Check it out!</a>
+              </div>
+            </div>
+            <br>
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">First Entry!</h5>
+                <h6 class="card-subtitle mb-2 text-muted">24 June 2022</h6>
+                <p class="card-text">I finished making this quick Django project to have something to showcase during interviews.</p>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

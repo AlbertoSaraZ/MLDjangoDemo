@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load assessment_texts %}
+
+{% block content %}
+    <br>
+    <div class="d-flex justify-content-center">
+        <img src="{{ object.image.url }}" style="width: 40%;" />
+    </div>
+    <br>
+    <div class="d-flex justify-content-center">
+        <h2>{{object.name}}</h2>
+    </div>
+    <br>
+    <div class="d-flex justify-content-center">
+        {% if object.submitted_as_meme %}
+            <h4>This image was submitted as a meme</h4>
+        {% else %}
+            <h4>This image was submitted as a no-meme</h4>
+        {% endif %}
+    </div>
+    <br>
+    <div class="d-flex justify-content-center">
+        Meme Confidence: {{object.meme_confidence|stringformat:".1f"}}%
+    </div>
+
+    <br>
+    <div class="d-flex justify-content-center">
+        AI Assessment:
+        {{ object.meme_confidence|textbyscore }}
+        <br>
+        {% if object.correct_prediction %}
+            We predicted correctly!
+        {% else %}
+            We didn't predict correctly...
+        {% endif %}
+
+    </div>
+    <br>
+    <div class="d-flex justify-content-center">
+        <a href="{% url 'delete_meme' object.id %}" class="text-danger">Delete Entry</a>
+    </div>
+
+    <br>
+    <div class="d-flex justify-content-center">
+        <a href="{% url 'gallery' %}">Back to gallery</a>
+    </div>
+    <br>
+
+{% endblock content %}
