@@ -2,6 +2,8 @@
 *~
 __pycache__
 /MLDJangoDemo/MemeDetector/MLModels/resnet152MEMES.pth
+/MLDJangoDemo/media/
 /venv/
 /MLDJangoDemo/db.sqlite3
 .DS_Store
+/.idea/
