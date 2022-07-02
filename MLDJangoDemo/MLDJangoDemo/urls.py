@@ -16,18 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework import routers
 from MemeDetector.views import ImageUploadView
 from MemeDetector.views import MemeGallery
 from MemeDetector.views import SingleMeme
 from MemeDetector.views import DeleteMeme
+from MemeDetector.views import CNNImageView
 from HomeApp.views import HomeView
 from HomeApp.views import AboutView
 
-from django.conf import settings
-from django.conf.urls.static import static
+router = routers.DefaultRouter()
+router.register(r'image', CNNImageView, 'image')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,7 +39,8 @@ urlpatterns = [
     path('meme-detector/gallery', MemeGallery.as_view(), name='gallery'),
     path('meme-detector/meme_upload', ImageUploadView.as_view(), name='meme_upload'),
     path('meme-detector/image/<int:pk>', SingleMeme.as_view(), name='single_meme'),
-    path('meme-detector/image/<int:pk>/delete', DeleteMeme.as_view(), name='delete_meme')
+    path('meme-detector/image/<int:pk>/delete', DeleteMeme.as_view(), name='delete_meme'),
+    path('api/', include(router.urls))
 ]
 
 if settings.DEBUG:

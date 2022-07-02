@@ -4,6 +4,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormMixin
+from rest_framework import viewsets
+from .serializers import CNNImageGetSerializer, CNNImagePostSerializer
 from .forms import MemeUploadForm, SearchMemeForm
 from .models import CNNImage
 
@@ -76,3 +78,13 @@ class DeleteMeme(DeleteView):
     template_name = "confirm_delete.html"
     model = CNNImage
     success_url = reverse_lazy('gallery')
+
+
+class CNNImageView(viewsets.ModelViewSet):
+    queryset = CNNImage.objects.all()
+    http_method_names = ['get', 'post', 'head']
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return CNNImagePostSerializer
+        return CNNImageGetSerializer
