@@ -8,6 +8,7 @@ from rest_framework import viewsets
 from .serializers import CNNImageGetSerializer, CNNImagePostSerializer
 from .forms import MemeUploadForm, SearchMemeForm
 from .models import CNNImage
+from .throttling import CNNImagePostAnonThrottle
 
 
 class ImageUploadView(FormView):
@@ -83,6 +84,11 @@ class DeleteMeme(DeleteView):
 class CNNImageView(viewsets.ModelViewSet):
     queryset = CNNImage.objects.all()
     http_method_names = ['get', 'post', 'head']
+
+    def get_throttles(self):
+        if self.request.method == 'POST':
+            self.throttle_classes = [CNNImagePostAnonThrottle]
+        return super().get_throttles()
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
