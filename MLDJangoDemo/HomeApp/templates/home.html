@@ -8,24 +8,37 @@
     </h5>
     <br>
     <br>
+
+    {% if object_list %}
     <div class="d-flex justify-content-center">
-        <div class="container">
-            <div class="card" style="width: 18rem;">
-              <div class="card-body">
-                <h5 class="card-title">Meme Detector</h5>
-                <h6 class="card-subtitle mb-2 text-muted">24 June 2022</h6>
-                <p class="card-text">Part of my engineering thesis, we now have a CNN I made using PyTorch to detect memes.</p>
-                <a href="{% url 'gallery' %}" class="card-link">Check it out!</a>
-              </div>
-            </div>
-            <br>
-            <div class="card" style="width: 18rem;">
-              <div class="card-body">
-                <h5 class="card-title">First Entry!</h5>
-                <h6 class="card-subtitle mb-2 text-muted">24 June 2022</h6>
-                <p class="card-text">I finished making this quick Django project to have something to showcase during interviews.</p>
-              </div>
-            </div>
-        </div>
+        <table style="width:600px;">
+            {% for card in object_list %}
+                {% cycle '<tr>' ' ' as open_tag silent%}
+                {% cycle ' ' '</tr>' as closing_tag silent%}
+                {{open_tag}}
+                    <td style="width: 50%">
+                        <div class="card" style="width: 18rem; height: 15rem;">
+                          <div class="card-body">
+                            <h5 class="card-title">{{card.title}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{card.date}}</h6>
+                            <p class="card-text">{{card.body_short|safe}}</p>
+                              {% if card.url %}
+                                <a href="{{card.url}}" class="card-link">{{card.url_verbose}}</a>
+                              {% endif %}
+                              {% if card.internal_url %}
+                                <a href="{% url card.internal_url %}" class="card-link">{{card.internal_url_verbose}}</a>
+                              {% endif %}
+                              <a href="{% url 'home_card' card.slug %}" class="card-link">Read more</a>
+                          </div>
+                        </div>
+                    <br>
+                    </td>
+                {{closing_tag}}
+            {% endfor %}
+        </table>
+        {% else %}
+        <h4>Check out our cool features!</h4>
+        {% endif %}
     </div>
+    <br>
 {% endblock content %}

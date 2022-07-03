@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="d-flex justify-content-around">
+    <table>
+        <tr>
+            <td>
+            <h5>
+              {{object.title}}
+            </h5>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+            <h6 class="text-muted">
+                {{object.date}}
+            </h6>
+            </td>
+        </tr>
+    </table>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+<br>
+
+<div class="d-flex justify-content-center">
+  <div style="max-width: 50rem;">
+    {{object.body|safe}}
+  </div>
+</div>
+<br>
+<div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-around" style="width: 30rem;">
+        {% if object.url %}
+        <a href="{{object.url}}" >{{object.url_verbose}}</a>
+        {% endif %}
+        {% if object.internal_url %}
+        <a href="{% url object.internal_url %}">{{object.internal_url_verbose}}</a>
+        {% endif %}
+        <a href="{% url 'home' %}" >Go back</a>
+    </div>
+</div>
+
+{% endblock content %}
