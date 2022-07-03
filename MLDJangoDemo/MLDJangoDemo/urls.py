@@ -24,6 +24,7 @@ from MemeDetector.views import MemeGallery
 from MemeDetector.views import SingleMeme
 from MemeDetector.views import DeleteMeme
 from HomeApp.views import HomeView
+from HomeApp.views import HomeCardView
 from HomeApp.views import AboutView
 
 from django.conf import settings
@@ -33,7 +34,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='home'),
     path('home', HomeView.as_view(), name='home'),
+    path('home/<slug>', HomeCardView.as_view(), name='home_card'),
     path('about', AboutView.as_view(), name='about'),
+    path('meme-detector/', MemeGallery.as_view(), name='gallery'),
     path('meme-detector/gallery', MemeGallery.as_view(), name='gallery'),
     path('meme-detector/meme_upload', ImageUploadView.as_view(), name='meme_upload'),
     path('meme-detector/image/<int:pk>', SingleMeme.as_view(), name='single_meme'),

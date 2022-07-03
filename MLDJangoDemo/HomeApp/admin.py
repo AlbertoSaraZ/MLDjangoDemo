@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import AboutTextSection, HomeTextCard
 
-# TODO Register card and about models to be able to modify them through admin site
+
+admin.site.register(AboutTextSection)
+admin.site.register(HomeTextCard)
